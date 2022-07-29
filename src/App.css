@@ -36,3 +36,29 @@
     transform: rotate(360deg);
   }
 } */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 2% 2%;
+  background-color: #805b87;
+  color: whitesmoke;
+  font-size: large;
+  font-weight: 600;
+  letter-spacing: 0.1rem;
+}
+.header-logo {
+  width: 30%;
+}
+.header-list {
+  display: flex;
+  /* border: 2px solid red; */
+  justify-content: space-between;
+  margin: 0;
+  width: 40%;
+}
+.header-list li {
+  display: inline;
+  flex-wrap: wrap;
+  cursor: pointer;
+}
