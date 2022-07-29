@@ -37,6 +37,12 @@
   }
 } */
 
+/* .App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+} */
+
 .header {
   display: flex;
   justify-content: space-between;
@@ -46,6 +52,7 @@
   font-size: large;
   font-weight: 600;
   letter-spacing: 0.1rem;
+  /* width: 100%; */
 }
 .header-logo {
   width: 30%;
@@ -60,5 +67,58 @@
 .header-list li {
   display: inline;
   flex-wrap: wrap;
+  cursor: pointer;
+}
+
+/* Signup */
+
+.box {
+  border: 2px solid #805b87;
+  width: 40%;
+  margin: auto;
+  margin-top: 5%;
+}
+
+.box-header {
+  background-color: #805b87;
+  padding: 3%;
+  font-size: 1.3rem;
+  color: whitesmoke;
+  letter-spacing: 0.1rem;
+}
+
+.signup-form {
+  margin: 5%;
+  font-size: 1.15rem;
+  color: #1d1d1d;
+}
+.signup-form label {
+  display: block;
+  margin-bottom: 4%;
+  /* border: 2px solid red; */
+}
+
+.signup-form label input {
+  width: 90%;
+  height: 100%;
+  margin-top: 0;
+  padding: 0.8rem;
+  background-color: inherit;
+  border: 0px;
+  border-bottom: 1.3px solid #1d1d1d;
+  outline: none;
+  font-size: 1.15rem;
+  /* border-bottom: 2px; */
+}
+
+.submit-btn {
+  margin-top: 3%;
+  margin-bottom: 3%;
+  padding: 0.5rem 2rem;
+  color: whitesmoke;
+  font-size: 1.1rem;
+  background-color: #805b87;
+  outline: none;
+  border: 0px;
   cursor: pointer;
 }
