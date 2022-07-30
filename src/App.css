@@ -87,18 +87,18 @@
   letter-spacing: 0.1rem;
 }
 
-.signup-form {
+.user-form {
   margin: 5%;
   font-size: 1.15rem;
   color: #1d1d1d;
 }
-.signup-form label {
+.user-form label {
   display: block;
   margin-bottom: 4%;
   /* border: 2px solid red; */
 }
 
-.signup-form label input {
+.user-form label input {
   width: 90%;
   height: 100%;
   margin-top: 0;
