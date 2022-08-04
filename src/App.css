@@ -93,6 +93,18 @@
   color: whitesmoke;
   letter-spacing: 0.1rem;
 }
+.box-body {
+  margin: 5%;
+}
+.box-body-top {
+  display: flex;
+  /* margin-left: 5%;
+  margin-right: 5%; */
+}
+
+.box-body-bottom {
+  margin-left: 3%;
+}
 
 .user-form {
   margin: 5%;
@@ -127,5 +139,41 @@
   background-color: #805b87;
   outline: none;
   border: 0px;
+  cursor: pointer;
+}
+
+.avatar {
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+}
+
+.profile-btn {
+  width: 30px;
+  margin-right: 1%;
+  /* height: 30px; */
+}
+
+.profile-left {
+  /* border: 2px solid cadetblue; */
+  display: flex;
+  justify-content: center;
+  width: 20%;
+}
+.profile-mid {
+  /* border: 2px solid blue; */
+  width: 60%;
+}
+.profile-right {
+  display: flex;
+  /* border: 2px solid red; */
+  align-items: center;
+  justify-content: space-around;
+  width: 20%;
+  /* display: flex;
+  justify-content: space-between; */
+}
+
+.profile-right img {
   cursor: pointer;
 }
