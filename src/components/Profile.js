@@ -1,6 +1,7 @@
 import React from "react";
 
 function Profile() {
+  const user = JSON.parse(localStorage.getItem("lanUser"));
   const handleDelete = () => {
     const ans = window.confirm("Click on OK to delete your account.");
     console.log(ans);
@@ -14,8 +15,8 @@ function Profile() {
             <img src="/avatar.png" alt="Avatar" className="avatar" />
           </div>
           <div className="profile-mid">
-            <p>Hero</p>
-            <p>hero@gmail.com</p>
+            <p>{user.name}</p>
+            <p>{user.email}</p>
           </div>
           <div className="profile-right">
             <img
@@ -29,7 +30,7 @@ function Profile() {
         </div>
         <hr />
         <div className="box-body-bottom">
-          <p>Joined: 5/08</p>
+          <p>Joined: {user.joinedOn}</p>
         </div>
       </div>
     </div>

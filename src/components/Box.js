@@ -1,16 +1,18 @@
 import React from "react";
 
-function Box({ boxHeader, inputFields, formType }) {
+function Box({ boxHeader, inputFields, formType, onSubmit }) {
   //   console.log(boxHeader);
 
-  const onSubmit = (e) => {
+  const onTest = (e) => {
     e.preventDefault();
+    const data = new FormData(e.currentTarget);
+    console.log(data);
   };
 
   return (
     <div className="box">
       <div className="box-header">{boxHeader}</div>
-      <form className={`${formType} user-form`}>
+      <form className={`${formType} user-form`} onSubmit={onSubmit}>
         {inputFields.map((ele) => {
           return (
             <label key={ele.name}>
@@ -26,7 +28,7 @@ function Box({ boxHeader, inputFields, formType }) {
           type="submit"
           value="Submit"
           className="submit-btn"
-          onClick={onSubmit}
+          // onClick={onTest}
         />
       </form>
     </div>
