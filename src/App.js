@@ -5,6 +5,7 @@ import Signup from "./components/Signup";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Profile from "./components/Profile";
 import PrivateRoute from "./helpers/PrivateRoute";
+import Home from "./components/Home";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
               </PrivateRoute>
             }
           />
+          <Route path="/" element={<Home />} />
         </Routes>
       </div>
     </BrowserRouter>

@@ -177,3 +177,56 @@
 .profile-right img {
   cursor: pointer;
 }
+
+.posts {
+  margin: 2% 20%;
+}
+
+.post-box {
+  /* border: 2px solid #805b87; */
+  border-radius: 20px;
+  margin-top: 5%;
+  box-shadow: 10px 10px 8px 10px #888888;
+  padding: 2% 5% 5%;
+  background-color: white;
+}
+
+.post-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.post-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
+.post-header-left {
+  width: 10%;
+}
+
+.post-header-mid {
+  width: 90%;
+}
+.post-name {
+  letter-spacing: 0.08rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1d1d1d;
+  text-transform: capitalize;
+}
+.post-time {
+  letter-spacing: 0.05rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: gray;
+}
+
+.post-content {
+  margin: 1%;
+  text-align: justify;
+  letter-spacing: 0.01rem;
+  font-size: 1rem;
+  color: #1d1d1d;
+  /* background-color: bisque; */
+}

@@ -32,6 +32,7 @@ const Signin = () => {
     if (isUser.length) {
       localStorage.setItem("lanUser", JSON.stringify(isUser[0]));
       navigate("/");
+      window.location.reload();
     } else {
       console.log("User Not Found");
     }
