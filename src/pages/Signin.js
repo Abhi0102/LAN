@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getUserData } from "../helpers/user";
-import Box from "./Box";
+import Box from "../components/Box";
+import UserContext from "../StateProvider";
 
 const inputFields = [
   { type: "email", name: "email", placeholder: "Email Id..." },
@@ -11,14 +12,15 @@ const inputFields = [
 const Signin = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [loggedIn, setLoggedIn] = useContext(UserContext);
   const from = location.state?.from?.pathname || "/";
-  const isLoggedIn = localStorage.getItem("lanUser") ? true : false;
+  // const isLoggedIn = localStorage.getItem("lanUser") ? true : false;
 
   useEffect(() => {
-    if (isLoggedIn) {
+    if (loggedIn) {
       navigate(from, { replace: true });
     }
-  }, [isLoggedIn]);
+  }, [loggedIn]);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -32,7 +34,7 @@ const Signin = () => {
     if (isUser.length) {
       localStorage.setItem("lanUser", JSON.stringify(isUser[0]));
       navigate("/");
-      window.location.reload();
+      setLoggedIn(true);
     } else {
       console.log("User Not Found");
     }

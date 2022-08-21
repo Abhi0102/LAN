@@ -11,7 +11,7 @@ let userData = [
 
 let post = [
   {
-    id: 1,
+    id: 2,
     user: {
       id: 1,
       name: "test",
@@ -20,7 +20,7 @@ let post = [
       joinedOn: "",
       avatar: "/avatar.png",
     },
-    date: "Aug,18",
+    date: new Date(Date.now() - 2 * 86400000),
     content: `Lorem Ipsum is simply dummy text of the printing and typesetting
 industry. Lorem Ipsum has been the industry's standard dummy text ever
 since the 1500s, when an unknown printer took a galley of type and
@@ -41,7 +41,7 @@ over the years, sometimes by accident, sometimes on purpose (injected
 humour and the like).`,
   },
   {
-    id: 2,
+    id: 1,
     user: {
       id: 1,
       name: "test",
@@ -50,7 +50,7 @@ humour and the like).`,
       joinedOn: "",
       avatar: "/avatar.png",
     },
-    date: "Aug,18",
+    date: new Date(Date.now() - 5 * 86400000),
     content: `Lorem Ipsum is simply dummy text of the printing and typesetting
 industry. Lorem Ipsum has been the industry's standard dummy text ever
 since the 1500s, when an unknown printer took a galley of type and
@@ -81,7 +81,7 @@ export function setUserData(name, email, password) {
     name,
     email,
     password,
-    joinedOn: Date.now(),
+    joinedOn: new Date(),
     avatar: "/avatar.png",
   };
   userData = [data, ...userData];
@@ -90,4 +90,10 @@ export function setUserData(name, email, password) {
 
 export function getPosts() {
   return post;
+}
+
+export function addPost(user, content) {
+  const data = { id: post[0].id + 1, user, date: new Date(), content };
+  post = [data, ...post];
+  return data;
 }

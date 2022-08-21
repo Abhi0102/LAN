@@ -56,6 +56,17 @@
   letter-spacing: 0.1rem;
   /* width: 100%; */
 }
+.footer {
+  background-color: #805b87;
+  height: 10vh;
+  text-align: center;
+  padding-top: 5vh;
+  color: whitesmoke;
+  font-size: 1.5rem;
+  letter-spacing: 0.5rem;
+  font-weight: 500;
+  margin-top: 5%;
+}
 
 .header a {
   color: inherit;
@@ -208,6 +219,9 @@
 .post-header-mid {
   width: 90%;
 }
+.post-header-right {
+  width: 15%;
+}
 .post-name {
   letter-spacing: 0.08rem;
   font-size: 0.9rem;
@@ -229,4 +243,39 @@
   font-size: 1rem;
   color: #1d1d1d;
   /* background-color: bisque; */
+}
+
+.post-input {
+  width: 100%;
+  padding: 1%;
+  outline: none;
+  resize: none;
+  font-size: 1rem;
+  letter-spacing: 0.02rem;
+  border: 0.5px solid #1d1d1d;
+  border-radius: 18px;
+  text-align: justify;
+}
+
+.post-footer {
+  text-align: right;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #888888;
+}
+
+.post-btn {
+  background-color: #805b87;
+  color: whitesmoke;
+  padding: 10% 20%;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.post-btn:disabled {
+  background-color: #b0a0b3;
+  color: white;
 }

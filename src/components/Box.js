@@ -1,14 +1,6 @@
 import React from "react";
 
 function Box({ boxHeader, inputFields, formType, onSubmit }) {
-  //   console.log(boxHeader);
-
-  const onTest = (e) => {
-    e.preventDefault();
-    const data = new FormData(e.currentTarget);
-    console.log(data);
-  };
-
   return (
     <div className="box">
       <div className="box-header">{boxHeader}</div>
@@ -24,12 +16,7 @@ function Box({ boxHeader, inputFields, formType, onSubmit }) {
             </label>
           );
         })}
-        <input
-          type="submit"
-          value="Submit"
-          className="submit-btn"
-          // onClick={onTest}
-        />
+        <input type="submit" value="Submit" className="submit-btn" />
       </form>
     </div>
   );

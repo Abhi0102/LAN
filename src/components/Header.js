@@ -1,24 +1,24 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import UserContext from "../StateProvider";
 
 function Header() {
-  const [user, setUser] = useState(localStorage.getItem("lanUser"));
-  console.log(user);
+  const [loggedIn, setLoggedIn] = useContext(UserContext);
   const handleSignout = () => {
     localStorage.removeItem("lanUser");
-    window.location.reload();
+    setLoggedIn(false);
   };
   return (
     <div className="header">
       <div className="header-logo">
-        <Link to="/">Logo</Link>
+        <Link to="/">LAN App</Link>
       </div>
       <ul className="header-list">
         {/* <li>Logo</li> */}
         <Link to="/">
           <li>Home</li>
         </Link>
-        {user ? (
+        {loggedIn ? (
           <>
             <Link to="/profile">
               <li>Profile</li>

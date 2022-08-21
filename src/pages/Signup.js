@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getUserData, setUserData } from "../helpers/user";
-import Box from "./Box";
+import Box from "../components/Box";
+import UserContext from "../StateProvider";
 
 const inputFields = [
   { type: "text", name: "name", placeholder: "Name..." },
@@ -12,14 +13,15 @@ const inputFields = [
 function Signup() {
   const location = useLocation();
   const navigate = useNavigate();
+  const [loggedIn, setLoggedIn] = useContext(UserContext);
   const from = location.state?.from?.pathname || "/";
-  const isLoggedIn = localStorage.getItem("lanUser") ? true : false;
+  // const isLoggedIn = localStorage.getItem("lanUser") ? true : false;
 
   useEffect(() => {
-    if (isLoggedIn) {
+    if (loggedIn) {
       navigate(from, { replace: true });
     }
-  }, [isLoggedIn]);
+  }, [loggedIn]);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -35,7 +37,7 @@ function Signup() {
       const user = setUserData(name, email, pwd);
       localStorage.setItem("lanUser", JSON.stringify(user));
       navigate("/");
-      window.location.reload();
+      setLoggedIn(true);
     }
   };
   return (

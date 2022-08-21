@@ -4,7 +4,6 @@ function Profile() {
   const user = JSON.parse(localStorage.getItem("lanUser"));
   const handleDelete = () => {
     const ans = window.confirm("Click on OK to delete your account.");
-    console.log(ans);
   };
   return (
     <div className="box">
@@ -30,7 +29,7 @@ function Profile() {
         </div>
         <hr />
         <div className="box-body-bottom">
-          <p>Joined: {user.joinedOn}</p>
+          <p>Joined: {user.joinedOn.toString().split("T")[0]}</p>
         </div>
       </div>
     </div>

@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { getPosts } from "../helpers/user";
 
 function Post({ avatar, name, date, content }) {
-  //   return allPosts.map((post) => {
+  const newDate = new Date(date).toLocaleDateString();
   return (
     <div className="post-box">
       <div className="post-header">
@@ -12,7 +11,7 @@ function Post({ avatar, name, date, content }) {
         <div className="post-header-mid">
           <span className="post-name">{name}</span>
           <br />
-          <span className="post-time">{date}</span>
+          <span className="post-time">{newDate}</span>
         </div>
       </div>
       <div className="post-content">{content}</div>
