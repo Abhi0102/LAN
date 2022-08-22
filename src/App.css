@@ -279,3 +279,8 @@
   background-color: #b0a0b3;
   color: white;
 }
+
+.post-delete-btn {
+  width: 25%;
+  cursor: pointer;
+}

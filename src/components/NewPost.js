@@ -18,6 +18,8 @@ function NewPost({ avatar, name, addNewPost }) {
     const user = JSON.parse(localStorage.getItem("lanUser"));
     addPost(user, content);
     addNewPost();
+    setContent("");
+    setContentLength(0);
   };
   return (
     <div className="post-box">
@@ -46,6 +48,7 @@ function NewPost({ avatar, name, addNewPost }) {
           rows="5"
           placeholder="Share Your Thoughts..."
           maxLength="250"
+          value={content}
           onChange={textAreaChange}
         />
       </div>

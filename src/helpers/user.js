@@ -133,3 +133,8 @@ export function editName(userId, userName) {
     }
   });
 }
+
+export function deletePost(postId) {
+  post = post.filter((ele) => ele.id !== postId);
+  return post;
+}
