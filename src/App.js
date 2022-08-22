@@ -9,6 +9,8 @@ import Home from "./pages/Home";
 import { UserProvider } from "./StateProvider";
 import { useEffect, useState } from "react";
 import Footer from "./components/Footer";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -23,6 +25,7 @@ function App() {
       <UserProvider value={[loggedIn, setLoggedIn]}>
         <div className="App">
           <Header />
+          <ToastContainer />
           <Routes>
             <Route path="/signup" element={<Signup />} />
             <Route path="/signin" element={<Signin />} />

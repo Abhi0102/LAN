@@ -1,10 +1,26 @@
 let userData = [
+  // {
+  //   id: 3,
+  //   name: "test",
+  //   email: "test@gmail.com",
+  //   password: "12345678",
+  //   joinedOn: new Date(Date.now() - 5 * 86400000),
+  //   avatar: "/avatar.png",
+  // },
+  // {
+  //   id: 2,
+  //   name: "test",
+  //   email: "test@gmail.com",
+  //   password: "12345678",
+  //   joinedOn: new Date(Date.now() - 5 * 86400000),
+  //   avatar: "/avatar.png",
+  // },
   {
     id: 1,
     name: "test",
     email: "test@gmail.com",
     password: "12345678",
-    joinedOn: "",
+    joinedOn: new Date(Date.now() - 5 * 86400000),
     avatar: "/avatar.png",
   },
 ];
@@ -71,6 +87,7 @@ over the years, sometimes by accident, sometimes on purpose (injected
 humour and the like).`,
   },
 ];
+
 export function getUserData() {
   return userData;
 }
@@ -96,4 +113,23 @@ export function addPost(user, content) {
   const data = { id: post[0].id + 1, user, date: new Date(), content };
   post = [data, ...post];
   return data;
+}
+
+export function deleteUser(userId) {
+  userData = userData.filter((ele) => ele.id !== userId);
+  post = post.filter((ele) => ele.user.id !== userId);
+}
+
+export function editName(userId, userName) {
+  userData.map((ele) => {
+    if (ele.id === userId) {
+      ele.name = userName;
+    }
+  });
+
+  post.map((ele) => {
+    if (ele.user.id === userId) {
+      ele.user.name = userName;
+    }
+  });
 }

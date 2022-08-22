@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { getUserData } from "../helpers/user";
 import Box from "../components/Box";
 import UserContext from "../StateProvider";
+import { toast } from "react-toastify";
 
 const inputFields = [
   { type: "email", name: "email", placeholder: "Email Id..." },
@@ -33,10 +34,11 @@ const Signin = () => {
     );
     if (isUser.length) {
       localStorage.setItem("lanUser", JSON.stringify(isUser[0]));
+      toast.success("Successfully Logged In!!");
       navigate("/");
       setLoggedIn(true);
     } else {
-      console.log("User Not Found");
+      toast.error("Login Failed!! Please check username and password.");
     }
   };
   return (
