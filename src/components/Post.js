@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Comments from "./Comments";
 
 function Post({
   avatar,
@@ -8,9 +9,9 @@ function Post({
   postId,
   showDelete,
   handleDelete,
+  comments,
 }) {
   const newDate = new Date(date).toLocaleDateString();
-  console.log(showDelete);
   return (
     <div className="post-box">
       <div className="post-header">
@@ -34,6 +35,9 @@ function Post({
         )}
       </div>
       <div className="post-content">{content}</div>
+      <div>
+        <Comments comments={comments} postId={postId} />
+      </div>
     </div>
   );
 }

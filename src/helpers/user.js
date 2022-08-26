@@ -55,6 +55,20 @@ their default model text, and a search for 'lorem ipsum' will uncover
 many web sites still in their infancy. Various versions have evolved
 over the years, sometimes by accident, sometimes on purpose (injected
 humour and the like).`,
+    comments: [
+      {
+        commentId: 1,
+        user: {
+          id: 1,
+          name: "test",
+          email: "test@gmail.com",
+          password: "12345678",
+          joinedOn: "",
+          avatar: "/avatar.png",
+        },
+        content: "Wow Nice Post!!",
+      },
+    ],
   },
   {
     id: 1,
@@ -85,6 +99,32 @@ their default model text, and a search for 'lorem ipsum' will uncover
 many web sites still in their infancy. Various versions have evolved
 over the years, sometimes by accident, sometimes on purpose (injected
 humour and the like).`,
+    comments: [
+      {
+        commentId: 2,
+        user: {
+          id: 1,
+          name: "test",
+          email: "test@gmail.com",
+          password: "12345678",
+          joinedOn: "",
+          avatar: "/avatar.png",
+        },
+        content: "Wow Nice Post!!",
+      },
+      {
+        commentId: 1,
+        user: {
+          id: 1,
+          name: "test",
+          email: "test@gmail.com",
+          password: "12345678",
+          joinedOn: "",
+          avatar: "/avatar.png",
+        },
+        content: "Wow Nice Post!!",
+      },
+    ],
   },
 ];
 
@@ -110,7 +150,13 @@ export function getPosts() {
 }
 
 export function addPost(user, content) {
-  const data = { id: post[0].id + 1, user, date: new Date(), content };
+  const data = {
+    id: post[0].id + 1,
+    user,
+    date: new Date(),
+    content,
+    comments: [],
+  };
   post = [data, ...post];
   return data;
 }
@@ -137,4 +183,30 @@ export function editName(userId, userName) {
 export function deletePost(postId) {
   post = post.filter((ele) => ele.id !== postId);
   return post;
+}
+
+export function addComment(postId, user, content) {
+  const newComment = { user, content };
+  post.map((ele) => {
+    if (ele.id === postId) {
+      if (ele.comments.length) {
+        newComment.commentId = ele.comments[0].commentId + 1;
+      } else {
+        newComment.commentId = 1;
+      }
+      ele.comments = [newComment, ...ele.comments];
+    }
+  });
+  const comments = post.filter((ele) => ele.id === postId);
+  return comments[0].comments;
+}
+
+export function deleteComment(postId, commentId) {
+  post.map((ele) => {
+    if (ele.id === postId) {
+      ele.comments = ele.comments.filter((e) => e.commentId !== commentId);
+    }
+  });
+  const comments = post.filter((ele) => ele.id === postId);
+  return comments[0].comments;
 }

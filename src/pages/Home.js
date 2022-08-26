@@ -40,6 +40,7 @@ function Home() {
             showDelete={user && user.id === post.user.id ? true : false}
             postId={post.id}
             handleDelete={handleDelete}
+            comments={post.comments}
           />
         );
       })}
