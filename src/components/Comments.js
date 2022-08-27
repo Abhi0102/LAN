@@ -49,7 +49,9 @@ function Comments({ comments, postId }) {
       setAllComments(deleteComment(postId, commentId));
     }
   };
-  return (
+  return !loggedIn && comments.length === 0 ? (
+    <></>
+  ) : (
     <div className="comment-section">
       {loggedIn ? (
         <div className="comment-header">

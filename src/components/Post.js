@@ -10,6 +10,7 @@ function Post({
   showDelete,
   handleDelete,
   comments,
+  image,
 }) {
   const newDate = new Date(date).toLocaleDateString();
   return (
@@ -34,7 +35,10 @@ function Post({
           </div>
         )}
       </div>
-      <div className="post-content">{content}</div>
+      <div className="post-content">
+        {image && <img src={image} className="post-image" />}
+        {content}
+      </div>
       <div>
         <Comments comments={comments} postId={postId} />
       </div>

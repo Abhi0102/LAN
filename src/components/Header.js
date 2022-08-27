@@ -18,6 +18,9 @@ function Header() {
         <Link to="/">
           <li>Home</li>
         </Link>
+        <Link to="/posts">
+          <li>Posts</li>
+        </Link>
         {loggedIn ? (
           <>
             <Link to="/profile">

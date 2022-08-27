@@ -94,7 +94,8 @@
   border: 2px solid #805b87;
   width: 40%;
   margin: auto;
-  margin-top: 5%;
+  margin-top: 8%;
+  margin-bottom: 20%;
 }
 
 .box-header {
@@ -246,6 +247,13 @@
   /* background-color: bisque; */
 }
 
+.post-image {
+  max-width: 100%;
+  display: block;
+  margin: auto;
+  margin-bottom: 2%;
+}
+
 .post-input {
   width: 100%;
   padding: 1%;
@@ -258,8 +266,19 @@
   text-align: justify;
 }
 
+.add-image-icon {
+  cursor: pointer;
+}
+.add-image-area > input {
+  display: none;
+  /* cursor: pointer; */
+}
+
 .post-footer {
-  text-align: right;
+  display: flex;
+  justify-content: space-between;
+  /* text-align: right; */
+  margin-left: 1rem;
   font-size: 0.8rem;
   font-weight: 500;
   color: #888888;
@@ -356,4 +375,12 @@
   width: 15px;
   height: 15px;
   cursor: pointer;
+}
+
+.home-content {
+  border-radius: 20px;
+  margin: 10vh 10vw 55vh;
+  box-shadow: 10px 10px 8px 10px #888888;
+  padding: 2% 5% 5%;
+  background-color: white;
 }

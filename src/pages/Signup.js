@@ -31,12 +31,20 @@ function Signup() {
     const name = data.get("name");
     const users = getUserData();
     const alreadyExist = users.filter((ele) => ele.email === email);
+    const strongPassword = new RegExp(
+      "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})"
+    );
+    console.log(strongPassword.test(pwd));
     if (alreadyExist.length) {
       alert("Email Already Exists");
+    } else if (!strongPassword.test(pwd)) {
+      alert(
+        "Password is not strong enough. It should have atleast 1 Upper case, 1 Lower case and 1 special character and it should be atleast 8 char long."
+      );
     } else {
       const user = setUserData(name, email, pwd);
       localStorage.setItem("lanUser", JSON.stringify(user));
-      navigate("/");
+      navigate("/profile");
       setLoggedIn(true);
     }
   };

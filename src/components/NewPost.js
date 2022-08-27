@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import { addPost } from "../helpers/user";
+// import Camera from "/camera.svg";
+import { ReactComponent as Camera } from "../assets/camera.svg";
 
 function NewPost({ avatar, name, addNewPost }) {
   const today = new Date();
   const [contentLength, setContentLength] = useState(0);
   const [content, setContent] = useState("");
+  const [imageName, setImageName] = useState("");
+  const [image, setImage] = useState("");
   const date =
     today.getDate() + "/" + today.getMonth() + "/" + today.getFullYear();
 
@@ -16,10 +20,22 @@ function NewPost({ avatar, name, addNewPost }) {
   const handleButton = (e) => {
     e.preventDefault();
     const user = JSON.parse(localStorage.getItem("lanUser"));
-    addPost(user, content);
+    addPost(user, content, image);
     addNewPost();
     setContent("");
     setContentLength(0);
+    setImage("");
+    setImageName("");
+  };
+
+  const handleInputImage = (e) => {
+    let reader = new FileReader();
+    reader.onload = function (event) {
+      setImage(event.target.result);
+    };
+    reader.readAsDataURL(e.target.files[0]);
+    const name = e.target.value.split("\\");
+    setImageName(e.target.files[0].name);
   };
   return (
     <div className="post-box">
@@ -53,6 +69,18 @@ function NewPost({ avatar, name, addNewPost }) {
         />
       </div>
       <div className="post-footer">
+        <p className="add-image-area">
+          <label htmlFor="image-input">
+            <Camera className="add-image-icon" />
+          </label>
+          <input
+            id="image-input"
+            type="file"
+            accept="image/png, image/gif, image/jpeg"
+            onChange={handleInputImage}
+          />
+        </p>
+        <p>{imageName}</p>
         <p>{contentLength}/250</p>
       </div>
     </div>

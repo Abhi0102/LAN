@@ -35,7 +35,7 @@ const Signin = () => {
     if (isUser.length) {
       localStorage.setItem("lanUser", JSON.stringify(isUser[0]));
       toast.success("Successfully Logged In!!");
-      navigate("/");
+      navigate("/profile");
       setLoggedIn(true);
     } else {
       toast.error("Login Failed!! Please check username and password.");

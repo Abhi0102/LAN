@@ -5,12 +5,13 @@ import Signup from "./pages/Signup";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Profile from "./pages/Profile";
 import PrivateRoute from "./helpers/PrivateRoute";
-import Home from "./pages/Home";
+import Posts from "./pages/Posts";
 import { UserProvider } from "./StateProvider";
 import { useEffect, useState } from "react";
 import Footer from "./components/Footer";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Home from "./pages/Home";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -37,7 +38,9 @@ function App() {
                 </PrivateRoute>
               }
             />
+            <Route path="/posts" element={<Posts />} />
             <Route path="/" element={<Home />} />
+            <Route path="*" element={<Home />} />
           </Routes>
           <Footer />
         </div>
