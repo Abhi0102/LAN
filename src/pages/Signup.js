@@ -11,11 +11,11 @@ const inputFields = [
 ];
 
 function Signup() {
+  // Refer to signin page
   const location = useLocation();
   const navigate = useNavigate();
   const [loggedIn, setLoggedIn] = useContext(UserContext);
   const from = location.state?.from?.pathname || "/";
-  // const isLoggedIn = localStorage.getItem("lanUser") ? true : false;
 
   useEffect(() => {
     if (loggedIn) {
@@ -23,6 +23,8 @@ function Signup() {
     }
   }, [loggedIn]);
 
+  // On Signup - Check if username already exists, check password is strong enough, save user data and
+  // logged in user by saving user detail in local storage.
   const onSubmit = (e) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);

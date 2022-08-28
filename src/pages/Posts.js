@@ -4,14 +4,17 @@ import Post from "../components/Post";
 import NewPost from "../components/NewPost";
 
 function Posts() {
+  // Get all post from the data structure
   const [posts, setPosts] = useState(getPosts());
-  // const [showDelete, setShowDelete] = useState(false);
+  // Logged in user Detail
   const user = JSON.parse(localStorage.getItem("lanUser"));
 
+  // On adding the post update the component state 
   const addNewPost = () => {
     setPosts(getPosts());
   };
 
+  // Delete post by postId and update the component state
   const handleDelete = (postId) => {
     const ans = window.confirm("Do you want to delete the post permanently?");
     if (ans) {
@@ -21,6 +24,8 @@ function Posts() {
   };
   return (
     <div className="posts">
+
+      {/* Conditional rendering if user is logged in then show New Post */}
       {user && (
         <NewPost
           avatar={user.avatar}

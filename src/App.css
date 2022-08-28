@@ -44,7 +44,7 @@
 } */
 
 /* Header */
-@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap");
 .header {
   display: flex;
   justify-content: space-between;
@@ -74,7 +74,7 @@
 }
 .header-logo {
   width: 30%;
-  font-family: 'Abril Fatface', cursive;
+  font-family: "Abril Fatface", cursive;
   font-size: x-large;
 }
 .header-list {
@@ -381,8 +381,18 @@
 
 .home-content {
   border-radius: 20px;
-  margin: 10vh 10vw 55vh;
+  margin: 10vh 10vw 20vh;
   box-shadow: 10px 10px 8px 10px #888888;
   padding: 2% 5% 5%;
   background-color: white;
+}
+.home-header {
+  text-align: center;
+}
+.home-banner {
+  width: 100%;
+}
+
+.home-about {
+  text-align: justify;
 }

@@ -11,18 +11,22 @@ const inputFields = [
 ];
 
 const Signin = () => {
+  // Location and navigate is used to identify from where the user is accessing the signin page.
+  // Suppose user is trying to access /profile but he is not logged in.
+  // Then he will be redirected to signin page and the /profile location is saved in from.
+  // Once he is successfully verified as logged in he will be redirected back to from i.e. /profile.
   const location = useLocation();
   const navigate = useNavigate();
   const [loggedIn, setLoggedIn] = useContext(UserContext);
   const from = location.state?.from?.pathname || "/";
-  // const isLoggedIn = localStorage.getItem("lanUser") ? true : false;
-
   useEffect(() => {
     if (loggedIn) {
+      // replace : true to remove signin page from history
       navigate(from, { replace: true });
     }
   }, [loggedIn]);
 
+  // Login Checks - Compare user name and password if found then show visual cue and logged in user to the app by saving the detail in local storage.
   const onSubmit = (e) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);

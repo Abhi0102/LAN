@@ -14,7 +14,10 @@ import "react-toastify/dist/ReactToastify.css";
 import Home from "./pages/Home";
 
 function App() {
+  // Logged In flag used to know if the user is logged in or not. Default - false.
   const [loggedIn, setLoggedIn] = useState(false);
+
+  // If user details found in local storage then set loggedIn flag to true.
   useEffect(() => {
     const user = localStorage.getItem("lanUser");
     if (user) {
@@ -23,13 +26,17 @@ function App() {
   }, []);
   return (
     <BrowserRouter>
+      {/* Providing the loggedIn flag to the context api so that it could be used in app and render components accordingly */}
       <UserProvider value={[loggedIn, setLoggedIn]}>
         <div className="App">
           <Header />
+          {/* Toastify is used to provide visual cue during signup,signin etc. process. */}
           <ToastContainer />
+
           <Routes>
             <Route path="/signup" element={<Signup />} />
             <Route path="/signin" element={<Signin />} />
+            {/* // Private Route is an HOC which protects the user to visit restricted page(profile) if the user is not signed in*/}
             <Route
               path="/profile"
               element={

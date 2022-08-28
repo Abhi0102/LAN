@@ -6,8 +6,13 @@ import UserContext from "../StateProvider";
 function Profile() {
   let user = JSON.parse(localStorage.getItem("lanUser"));
   const [userName, setUserName] = useState(user.name);
+
+  // Editable flag will allow user to edit the profile userName
   const [editable, setEditable] = useState(false);
+
   const [loggedIn, setLoggedIn] = useContext(UserContext);
+
+  // Delete User Profile by user id, clear local storage and set loggedIn flag to false
   const handleDelete = (e) => {
     const ans = window.confirm("Click on OK to delete your account.");
     if (ans) {
@@ -21,6 +26,8 @@ function Profile() {
   const handleEdit = () => {
     setEditable(true);
   };
+
+  // On saving the changes - set editable flag to false and update local storage
   const handleSave = () => {
     setEditable(false);
     editName(user.id, userName);
@@ -36,14 +43,17 @@ function Profile() {
             <img src="/avatar.png" alt="Avatar" className="avatar" />
           </div>
           <div className="profile-mid">
-            {!editable && <p>{user.name}</p>}
-            {editable && (
+            {/* Conditional rendering if not editable then show user name else show input box*/}
+            {!editable ? (
+              <p>{user.name}</p>
+            ) : (
               <input
                 type="text"
                 value={userName}
                 onChange={(e) => setUserName(e.target.value)}
               />
             )}
+
             <p>{user.email}</p>
           </div>
           <div className="profile-right">

@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import UserContext from "../StateProvider";
 
+// Navbar
 function Header() {
   const [loggedIn, setLoggedIn] = useContext(UserContext);
   const handleSignout = () => {

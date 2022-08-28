@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { addComment, deleteComment } from "../helpers/user";
 import UserContext from "../StateProvider";
 
+// Single Comment
 function Comment({
   avatar,
   userName,
@@ -32,6 +33,7 @@ function Comment({
   );
 }
 
+// All Comments
 function Comments({ comments, postId }) {
   const [allComments, setAllComments] = useState(comments);
   //   console.log(allComments);
@@ -43,16 +45,20 @@ function Comments({ comments, postId }) {
     setComment("");
   };
 
+  //   Delete Comment by commentId
   const handleDelete = (postId, commentId) => {
     const ans = window.confirm("Do you want to delete the comment?");
     if (ans) {
       setAllComments(deleteComment(postId, commentId));
     }
   };
+
+  //   If not logged in and there are no comments then show nothing else show comment section
   return !loggedIn && comments.length === 0 ? (
     <></>
   ) : (
     <div className="comment-section">
+      {/* If Logged in then show comment input else nothing */}
       {loggedIn ? (
         <div className="comment-header">
           <input
@@ -79,6 +85,7 @@ function Comments({ comments, postId }) {
               showDelete = comment.user.id === user.id;
             }
             return (
+              // Single Comment
               <Comment
                 key={comment.commentId}
                 avatar={comment.user.avatar}

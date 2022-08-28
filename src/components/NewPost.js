@@ -12,6 +12,7 @@ function NewPost({ avatar, name, addNewPost }) {
   const date =
     today.getDate() + "/" + today.getMonth() + "/" + today.getFullYear();
 
+  // Handle text input changes
   const textAreaChange = (e) => {
     setContentLength(e.target.value.length);
     setContent(e.target.value);
@@ -28,6 +29,7 @@ function NewPost({ avatar, name, addNewPost }) {
     setImageName("");
   };
 
+  //   handle image input
   const handleInputImage = (e) => {
     let reader = new FileReader();
     reader.onload = function (event) {
