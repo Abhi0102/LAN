@@ -44,7 +44,7 @@
 } */
 
 /* Header */
-
+@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap');
 .header {
   display: flex;
   justify-content: space-between;
@@ -74,6 +74,8 @@
 }
 .header-logo {
   width: 30%;
+  font-family: 'Abril Fatface', cursive;
+  font-size: x-large;
 }
 .header-list {
   display: flex;
