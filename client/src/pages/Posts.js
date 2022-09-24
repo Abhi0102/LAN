@@ -1,15 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { deletePost, getPosts } from "../helpers/user";
 import Post from "../components/Post";
 import NewPost from "../components/NewPost";
+import axios from "axios";
 
 function Posts() {
   // Get all post from the data structure
-  const [posts, setPosts] = useState(getPosts());
+  const [posts, setPosts] = useState();
   // Logged in user Detail
   const user = JSON.parse(localStorage.getItem("lanUser"));
 
-  // On adding the post update the component state 
+  useEffect(() => {
+    axios.get("/api/v1/post/get-posts").then((response) => {
+      console.log(posts);
+      setPosts(response.data.posts);
+      console.log(response.data.posts);
+    });
+  }, []);
+
+  // On adding the post update the component state
   const addNewPost = () => {
     setPosts(getPosts());
   };
@@ -23,34 +32,35 @@ function Posts() {
     }
   };
   return (
-    <div className="posts">
-
-      {/* Conditional rendering if user is logged in then show New Post */}
-      {user && (
-        <NewPost
-          avatar={user.avatar}
-          name={user.name}
-          addNewPost={addNewPost}
-          showDelete
-        />
-      )}
-      {posts.map((post) => {
-        return (
-          <Post
-            key={post.id}
-            name={post.user.name}
-            date={post.date}
-            content={post.content}
-            avatar={post.user.avatar}
-            showDelete={user && user.id === post.user.id ? true : false}
-            postId={post.id}
-            handleDelete={handleDelete}
-            comments={post.comments}
-            image={post.image}
+    posts && (
+      <div className="posts">
+        {/* Conditional rendering if user is logged in then show New Post */}
+        {user && (
+          <NewPost
+            avatar={user.avatar}
+            name={user.name}
+            addNewPost={addNewPost}
+            showDelete
           />
-        );
-      })}
-    </div>
+        )}
+        {posts.map((post) => {
+          return (
+            <Post
+              key={post.id}
+              name={post.user.name}
+              date={post.date}
+              content={post.content}
+              avatar={post.user.avatar}
+              showDelete={user && user.id === post.user.id ? true : false}
+              postId={post.id}
+              handleDelete={handleDelete}
+              comments={post.comments}
+              image={post.image}
+            />
+          );
+        })}
+      </div>
+    )
   );
 }
 

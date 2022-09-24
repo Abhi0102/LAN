@@ -9,8 +9,7 @@ function NewPost({ avatar, name, addNewPost }) {
   const [content, setContent] = useState("");
   const [imageName, setImageName] = useState("");
   const [image, setImage] = useState("");
-  const date =
-    today.getDate() + "/" + today.getMonth() + "/" + today.getFullYear();
+  const date = today.toLocaleDateString();
 
   // Handle text input changes
   const textAreaChange = (e) => {

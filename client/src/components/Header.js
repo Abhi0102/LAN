@@ -1,13 +1,20 @@
+import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import UserContext from "../StateProvider";
 
 // Navbar
 function Header() {
   const [loggedIn, setLoggedIn] = useContext(UserContext);
   const handleSignout = () => {
-    localStorage.removeItem("lanUser");
-    setLoggedIn(false);
+    axios
+      .get("/api/v1/user/logout")
+      .then((response) => {
+        localStorage.removeItem("lanUser");
+        setLoggedIn(false);
+      })
+      .catch((error) => toast.error(error.response.data.error));
   };
   return (
     <div className="header">

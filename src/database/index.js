@@ -18,6 +18,17 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 db.users = require("../models/user")(sequelize, DataTypes);
+db.posts = require("../models/post")(sequelize, DataTypes);
+db.comments = require("../models/comment")(sequelize, DataTypes);
+
+db.users.hasMany(db.posts, { foreignKey: "userId", as: "post" });
+db.posts.belongsTo(db.users, { foreignKey: "userId", as: "user" });
+
+db.posts.hasMany(db.comments, { foreignKey: "postId", as: "comments" });
+db.comments.belongsTo(db.posts, { foreignKey: "postId", as: "post" });
+
+db.users.hasMany(db.comments, { foreignKey: "userId", as: "comments" });
+db.comments.belongsTo(db.users, { foreignKey: "userId", as: "user" });
 
 db.sequelize
   .sync()

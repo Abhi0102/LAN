@@ -4,6 +4,7 @@ import { getUserData } from "../helpers/user";
 import Box from "../components/Box";
 import UserContext from "../StateProvider";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 const inputFields = [
   { type: "email", name: "email", placeholder: "Email Id..." },
@@ -33,17 +34,30 @@ const Signin = () => {
     const usersInDB = getUserData();
     const inputEmail = data.get("email");
     const inputPass = data.get("password");
-    const isUser = usersInDB.filter(
-      (ele) => ele.email === inputEmail && ele.password === inputPass
-    );
-    if (isUser.length) {
-      localStorage.setItem("lanUser", JSON.stringify(isUser[0]));
-      toast.success("Successfully Logged In!!");
-      navigate("/profile");
-      setLoggedIn(true);
-    } else {
-      toast.error("Login Failed!! Please check username and password.");
-    }
+    axios
+      .post("/api/v1/user/login", {
+        email: inputEmail,
+        password: inputPass,
+      })
+      .then((response) => {
+        console.log(response.data);
+        localStorage.setItem("lanUser", JSON.stringify(response.data.user));
+        navigate("/profile");
+        setLoggedIn(true);
+        toast.success(`Welcome ${response.data.user.name}`);
+      })
+      .catch((error) => console.log(error.response.data));
+    // const isUser = usersInDB.filter(
+    //   (ele) => ele.email === inputEmail && ele.password === inputPass
+    // );
+    // if (isUser.length) {
+    //   localStorage.setItem("lanUser", JSON.stringify(isUser[0]));
+    //   toast.success("Successfully Logged In!!");
+    //   navigate("/profile");
+    //   setLoggedIn(true);
+    // } else {
+    //   toast.error("Login Failed!! Please check username and password.");
+    // }
   };
   return (
     <Box

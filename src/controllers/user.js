@@ -1,7 +1,7 @@
-const BigPromise = require("../utils/bigPromise");
+const BigPromise = require("../middlewares/bigPromise");
 const bcrypt = require("bcryptjs");
-const db = require("../database/index");
 const cookietoken = require("../utils/cookietoken");
+const db = require("../database/index");
 const DBUsers = db.users;
 
 exports.signup = BigPromise(async (req, res, next) => {
@@ -45,4 +45,18 @@ exports.logout = BigPromise(async (req, res, next) => {
   });
 
   res.status(200).json({ success: true, message: "Successfully Logged out" });
+});
+
+exports.getUserDetail = BigPromise(async (req, res, next) => {
+  const user = await DBUsers.findOne({
+    attributes: ["id", "name", "email", "joinedOn", "avatar"],
+    where: { id: req.user.id },
+  });
+  res.status(200).json({ success: true, user });
+});
+
+exports.updateUserDetail = BigPromise(async (req, res, next) => {
+  const { name } = req.body;
+  await DBUsers.update({ name }, { where: { id: req.user.id } });
+  res.status(200).json({ success: true });
 });

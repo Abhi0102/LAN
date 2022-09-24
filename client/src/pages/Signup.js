@@ -1,8 +1,10 @@
 import React, { useContext, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getUserData, setUserData } from "../helpers/user";
+import axios from "axios";
 import Box from "../components/Box";
 import UserContext from "../StateProvider";
+import { toast } from "react-toastify";
 
 const inputFields = [
   { type: "text", name: "name", placeholder: "Name..." },
@@ -31,23 +33,34 @@ function Signup() {
     const email = data.get("email");
     const pwd = data.get("password");
     const name = data.get("name");
-    const users = getUserData();
-    const alreadyExist = users.filter((ele) => ele.email === email);
+    // const users = getUserData();
+    // const alreadyExist = users.filter((ele) => ele.email === email);
     const strongPassword = new RegExp(
       "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})"
     );
-    console.log(strongPassword.test(pwd));
-    if (alreadyExist.length) {
-      alert("Email Already Exists");
-    } else if (!strongPassword.test(pwd)) {
+    // console.log(strongPassword.test(pwd));
+    // if (alreadyExist.length) {
+    //   alert("Email Already Exists");
+    // }
+    if (!strongPassword.test(pwd)) {
       alert(
         "Password is not strong enough. It should have atleast 1 Upper case, 1 Lower case and 1 special character and it should be atleast 8 char long."
       );
     } else {
-      const user = setUserData(name, email, pwd);
-      localStorage.setItem("lanUser", JSON.stringify(user));
-      navigate("/profile");
-      setLoggedIn(true);
+      axios
+        .post("/api/v1/user/signup", {
+          name,
+          email,
+          password: pwd,
+        })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => toast.error(error.response.data.error));
+      // const user = setUserData(name, email, pwd);
+      // localStorage.setItem("lanUser", JSON.stringify(user));
+      // navigate("/profile");
+      // setLoggedIn(true);
     }
   };
   return (

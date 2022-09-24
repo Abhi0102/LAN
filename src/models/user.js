@@ -24,10 +24,11 @@ module.exports = (sequelize, DataTypes) => {
       joinedOn: {
         type: DataTypes.DATE,
         allowNull: false,
-        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+        defaultValue: DataTypes.NOW,
       },
       avatar: {
         type: DataTypes.STRING,
+        defaultValue: "/avatar.png",
       },
     },
     {

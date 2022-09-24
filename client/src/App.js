@@ -12,6 +12,7 @@ import Footer from "./components/Footer";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Home from "./pages/Home";
+import axios from "axios";
 
 function App() {
   // Logged In flag used to know if the user is logged in or not. Default - false.
@@ -19,10 +20,16 @@ function App() {
 
   // If user details found in local storage then set loggedIn flag to true.
   useEffect(() => {
-    const user = localStorage.getItem("lanUser");
-    if (user) {
-      setLoggedIn(true);
-    }
+    axios
+      .get("/api/v1/user/get-user")
+      .then((response) => {
+        localStorage.setItem("lanUser", JSON.stringify(response.data.user));
+        setLoggedIn(true);
+      })
+      .catch((error) => {
+        localStorage.removeItem("lanUser");
+        setLoggedIn(false);
+      });
   }, []);
   return (
     <BrowserRouter>

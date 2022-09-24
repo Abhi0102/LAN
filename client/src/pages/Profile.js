@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import { deleteUser, editName } from "../helpers/user";
@@ -29,10 +30,17 @@ function Profile() {
 
   // On saving the changes - set editable flag to false and update local storage
   const handleSave = () => {
-    setEditable(false);
-    editName(user.id, userName);
-    user.name = userName;
-    localStorage.setItem("lanUser", JSON.stringify(user));
+    axios
+      .post("/api/v1/user/update-user", {
+        name: userName,
+      })
+      .then((response) => {
+        user.name = userName;
+        localStorage.setItem("lanUser", JSON.stringify(user));
+        setEditable(false);
+        toast.success("Successfully Updated.");
+      })
+      .catch((error) => toast.error("Some error Occured."));
   };
   return (
     <div className="box">
@@ -66,7 +74,7 @@ function Profile() {
                   onClick={handleDelete}
                 />
                 <img
-                  src="/edit (1).png"
+                  src="/edit1.png"
                   alt="edit"
                   className="profile-btn"
                   onClick={handleEdit}
