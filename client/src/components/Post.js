@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Comments from "./Comments";
+// import { Buffer } from "buffer";
 
 function Post({
   avatar,
@@ -11,8 +12,10 @@ function Post({
   handleDelete,
   comments,
   image,
+  imageId,
 }) {
   const newDate = new Date(date).toLocaleDateString();
+
   return (
     <div className="post-box">
       <div className="post-header">
@@ -30,7 +33,7 @@ function Post({
               src="/delete.png"
               alt="Delete"
               className="post-delete-btn"
-              onClick={() => handleDelete(postId)}
+              onClick={() => handleDelete(postId, imageId)}
             />
           </div>
         )}

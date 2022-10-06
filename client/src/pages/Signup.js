@@ -54,7 +54,11 @@ function Signup() {
           password: pwd,
         })
         .then((response) => {
-          console.log(response);
+          // console.log(response);
+          localStorage.setItem("lanUser", JSON.stringify(response.data.user));
+          navigate("/profile");
+          setLoggedIn(true);
+          toast.success(`Welcome ${response.data.user.name}`);
         })
         .catch((error) => toast.error(error.response.data.error));
       // const user = setUserData(name, email, pwd);

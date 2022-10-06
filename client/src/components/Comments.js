@@ -1,4 +1,6 @@
+import axios from "axios";
 import React, { useContext, useState } from "react";
+import { toast } from "react-toastify";
 import { addComment, deleteComment } from "../helpers/user";
 import UserContext from "../StateProvider";
 
@@ -41,15 +43,33 @@ function Comments({ comments, postId }) {
   const [comment, setComment] = useState("");
   const [loggedIn] = useContext(UserContext);
   const handleSubmit = () => {
-    setAllComments(addComment(postId, user, comment));
-    setComment("");
+    axios
+      .post("/api/v1/post/add-comment", { postId, user, comment })
+      .then((resp) => {
+        setAllComments([resp.data.comment, ...allComments]);
+        setComment("");
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error("Some error occured.");
+      });
+    // setAllComments(addComment(postId, user, comment));
+    // setComment("");
   };
 
   //   Delete Comment by commentId
   const handleDelete = (postId, commentId) => {
     const ans = window.confirm("Do you want to delete the comment?");
     if (ans) {
-      setAllComments(deleteComment(postId, commentId));
+      axios
+        .post("/api/v1/post/delete-comment", { postId, commentId })
+        .then((response) => {
+          const newComments = comments.filter(
+            (ele) => ele.commentId !== commentId
+          );
+          setAllComments(newComments);
+        });
+      // setAllComments(deleteComment(postId, commentId));
     }
   };
 

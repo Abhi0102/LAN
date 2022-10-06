@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { addPost } from "../helpers/user";
 // import Camera from "/camera.svg";
 import { ReactComponent as Camera } from "../assets/camera.svg";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 function NewPost({ avatar, name, addNewPost }) {
   const today = new Date();
@@ -9,6 +11,7 @@ function NewPost({ avatar, name, addNewPost }) {
   const [content, setContent] = useState("");
   const [imageName, setImageName] = useState("");
   const [image, setImage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const date = today.toLocaleDateString();
 
   // Handle text input changes
@@ -19,24 +22,52 @@ function NewPost({ avatar, name, addNewPost }) {
 
   const handleButton = (e) => {
     e.preventDefault();
-    const user = JSON.parse(localStorage.getItem("lanUser"));
-    addPost(user, content, image);
-    addNewPost();
-    setContent("");
-    setContentLength(0);
-    setImage("");
-    setImageName("");
+    setIsLoading(true);
+    axios
+      .post(
+        "/api/v1/post/add-post",
+        {
+          content,
+          image,
+        },
+        { headers: { "content-type": "multipart/form-data" } }
+      )
+      .then((response) => {
+        addNewPost(response.data.post);
+        setContent("");
+        setContentLength(0);
+        setImage("");
+        setImageName("");
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Some Error Occured");
+        setIsLoading(false);
+      });
+    // const user = JSON.parse(localStorage.getItem("lanUser"));
+    // addPost(user, content, image);
+    // addNewPost();
+    // setContent("");
+    // setContentLength(0);
+    // setImage("");
+    // setImageName("");
   };
 
   //   handle image input
   const handleInputImage = (e) => {
-    let reader = new FileReader();
-    reader.onload = function (event) {
-      setImage(event.target.result);
-    };
-    reader.readAsDataURL(e.target.files[0]);
-    const name = e.target.value.split("\\");
+    // console.log(e.target.files[0].name);
     setImageName(e.target.files[0].name);
+    setImage(e.currentTarget.files[0]);
+    // const data = new FormData(e.currentTarget);
+    // console.log(e.currentTarget.files[0]);
+    // let reader = new FileReader();
+    // reader.onload = function (event) {
+    //   setImage(event.target.result);
+    // };
+    // reader.readAsDataURL(e.target.files[0]);
+    // const name = e.target.value.split("\\");
+    // setImageName(e.target.files[0].name);
   };
   return (
     <div className="post-box">
@@ -52,7 +83,7 @@ function NewPost({ avatar, name, addNewPost }) {
         <div className="post-header-right">
           <button
             className="post-btn"
-            disabled={contentLength < 10}
+            disabled={contentLength < 10 || isLoading}
             onClick={handleButton}
           >
             Add Post
@@ -64,7 +95,7 @@ function NewPost({ avatar, name, addNewPost }) {
           className="post-input"
           rows="5"
           placeholder="Share Your Thoughts..."
-          maxLength="250"
+          maxLength="600"
           value={content}
           onChange={textAreaChange}
         />
@@ -82,7 +113,7 @@ function NewPost({ avatar, name, addNewPost }) {
           />
         </p>
         <p>{imageName}</p>
-        <p>{contentLength}/250</p>
+        <p>{contentLength}/600</p>
       </div>
     </div>
   );

@@ -60,3 +60,5 @@ exports.updateUserDetail = BigPromise(async (req, res, next) => {
   await DBUsers.update({ name }, { where: { id: req.user.id } });
   res.status(200).json({ success: true });
 });
+
+// Delete User

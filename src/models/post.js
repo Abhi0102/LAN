@@ -19,10 +19,13 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.NOW,
     },
     content: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
     },
     image: {
+      type: DataTypes.STRING,
+    },
+    imageId: {
       type: DataTypes.STRING,
     },
   });

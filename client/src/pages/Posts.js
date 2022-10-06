@@ -3,6 +3,8 @@ import { deletePost, getPosts } from "../helpers/user";
 import Post from "../components/Post";
 import NewPost from "../components/NewPost";
 import axios from "axios";
+import { toast } from "react-toastify";
+import User from "../components/User";
 
 function Posts() {
   // Get all post from the data structure
@@ -12,28 +14,36 @@ function Posts() {
 
   useEffect(() => {
     axios.get("/api/v1/post/get-posts").then((response) => {
-      console.log(posts);
       setPosts(response.data.posts);
-      console.log(response.data.posts);
+      // console.log(response.data.posts);
+      // console.log(response.data.posts);
     });
   }, []);
 
   // On adding the post update the component state
-  const addNewPost = () => {
-    setPosts(getPosts());
+  const addNewPost = (post) => {
+    const newPosts = [post, ...posts];
+    setPosts(newPosts);
   };
 
   // Delete post by postId and update the component state
-  const handleDelete = (postId) => {
+  const handleDelete = (postId, imageId) => {
     const ans = window.confirm("Do you want to delete the post permanently?");
     if (ans) {
-      const posts = deletePost(postId);
-      setPosts(posts);
+      axios
+        .post("/api/v1/post/delete-post", { postId, imageId })
+        .then((res) => {
+          const newPosts = posts.filter((ele) => ele.id !== postId);
+          setPosts(newPosts);
+        })
+        .catch((error) => toast.error("Some error occured."));
+      // const posts = deletePost(postId);
+      // setPosts(posts);
     }
   };
   return (
-    posts && (
-      <div className="posts">
+    <div className="posts-container">
+      <div className={user ? "posts-login" : "posts"}>
         {/* Conditional rendering if user is logged in then show New Post */}
         {user && (
           <NewPost
@@ -43,24 +53,31 @@ function Posts() {
             showDelete
           />
         )}
-        {posts.map((post) => {
-          return (
-            <Post
-              key={post.id}
-              name={post.user.name}
-              date={post.date}
-              content={post.content}
-              avatar={post.user.avatar}
-              showDelete={user && user.id === post.user.id ? true : false}
-              postId={post.id}
-              handleDelete={handleDelete}
-              comments={post.comments}
-              image={post.image}
-            />
-          );
-        })}
+        {posts &&
+          posts.map((post) => {
+            return (
+              <Post
+                key={post.id}
+                name={post.user.name}
+                date={post.date}
+                content={post.content}
+                avatar={post.user.avatar}
+                showDelete={user && user.id === post.user.id ? true : false}
+                postId={post.id}
+                handleDelete={handleDelete}
+                comments={post.comments}
+                image={post.image}
+                imageId={post.imageId}
+              />
+            );
+          })}
       </div>
-    )
+      {user && (
+        // <div>
+        <User />
+        // </div>
+      )}
+    </div>
   );
 }
 

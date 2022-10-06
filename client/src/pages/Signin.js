@@ -40,7 +40,7 @@ const Signin = () => {
         password: inputPass,
       })
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         localStorage.setItem("lanUser", JSON.stringify(response.data.user));
         navigate("/profile");
         setLoggedIn(true);
