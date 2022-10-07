@@ -20,6 +20,7 @@ db.sequelize = sequelize;
 db.users = require("../models/user")(sequelize, DataTypes);
 db.posts = require("../models/post")(sequelize, DataTypes);
 db.comments = require("../models/comment")(sequelize, DataTypes);
+db.followers = require("../models/follower")(sequelize, DataTypes);
 
 db.users.hasMany(db.posts, { foreignKey: "userId", as: "post" });
 db.posts.belongsTo(db.users, { foreignKey: "userId", as: "user" });
@@ -29,6 +30,18 @@ db.comments.belongsTo(db.posts, { foreignKey: "postId", as: "post" });
 
 db.users.hasMany(db.comments, { foreignKey: "userId", as: "comments" });
 db.comments.belongsTo(db.users, { foreignKey: "userId", as: "user" });
+
+db.users.hasMany(db.followers, { foreignKey: "followerId", as: "follower" });
+db.followers.belongsTo(db.users, {
+  foreignKey: "followerId",
+  as: "followerUser",
+});
+
+db.users.hasMany(db.followers, { foreignKey: "followingId", as: "following" });
+db.followers.belongsTo(db.users, {
+  foreignKey: "followingId",
+  as: "followingUser",
+});
 
 db.sequelize
   .sync()
