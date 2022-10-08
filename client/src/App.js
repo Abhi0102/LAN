@@ -13,6 +13,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Home from "./pages/Home";
 import axios from "axios";
+import UserPosts from "./pages/UserPosts";
 
 function App() {
   // Logged In flag used to know if the user is logged in or not. Default - false.
@@ -53,6 +54,7 @@ function App() {
               }
             />
             <Route path="/posts" element={<Posts />} />
+            <Route path="/posts/user/:id" element={<UserPosts />} />
             <Route path="/" element={<Home />} />
             <Route path="*" element={<Home />} />
           </Routes>

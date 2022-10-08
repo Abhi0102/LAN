@@ -304,6 +304,15 @@
   padding: 2% 5% 5%;
   background-color: white;
 }
+.no-post-div {
+  border-radius: 20px;
+  margin-top: 5%;
+  box-shadow: 10px 10px 8px 10px #888888;
+  padding: 2% 5% 5%;
+  width: 60vw;
+  height: 40vh;
+  background-color: white;
+}
 
 .post-header {
   display: flex;

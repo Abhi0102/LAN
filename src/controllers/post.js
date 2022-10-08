@@ -3,6 +3,8 @@ const db = require("../database/index");
 const DBUsers = db.users;
 const DBPosts = db.posts;
 const DBComments = db.comments;
+const DBFollowers = db.followers;
+
 const cloudinary = require("cloudinary").v2;
 exports.getAllPost = BigPromise(async (req, res, next) => {
   const posts = await DBPosts.findAll({
@@ -124,4 +126,43 @@ exports.deleteComment = BigPromise(async (req, res, next) => {
     },
   });
   res.status(200).json({ success: true });
+});
+
+exports.getPostById = BigPromise(async (req, res, next) => {
+  const followerId = req.user.id;
+  const followingId = req.params.id;
+  const isFollowing = await DBFollowers.findAll({
+    where: { followerId, followingId },
+  });
+  if (followingId != followerId && !isFollowing.length) {
+    return next(new Error("You are not allowed to access the posts."));
+  }
+
+  const posts = await DBPosts.findAll({
+    where: { userId: followingId },
+    order: [
+      ["id", "DESC"],
+      ["comments", "commentId", "DESC"],
+    ],
+    include: [
+      {
+        model: DBUsers,
+        as: "user",
+        attributes: ["id", "name", "email", "joinedOn", "avatar"],
+      },
+      {
+        model: DBComments,
+        as: "comments",
+        include: [
+          {
+            model: DBUsers,
+            as: "user",
+            attributes: ["id", "name", "email", "joinedOn", "avatar"],
+          },
+        ],
+      },
+    ],
+  });
+
+  res.status(200).json({ success: true, posts });
 });

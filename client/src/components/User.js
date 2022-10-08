@@ -1,10 +1,13 @@
 import axios from "axios";
+// import { redirect } from "react-router-dom";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 function User() {
   const [selectedItem, setSelectedItem] = useState("all");
   const [usersList, setUsersList] = useState([]);
+  const navigate = useNavigate();
   useEffect(() => {
     switch (selectedItem) {
       case "all":
@@ -59,6 +62,10 @@ function User() {
     });
   };
 
+  const checkUserProfile = (id) => {
+    navigate(`/posts/user/${id}`);
+  };
+
   return (
     <div className="users-container">
       <div className="users-header">Users</div>
@@ -100,7 +107,12 @@ function User() {
                   className="user-avatar"
                 />
               </div>
-              <div className="single-user-detail">{element.name}</div>
+              <div
+                className="single-user-detail"
+                onClick={() => checkUserProfile(element.id)}
+              >
+                {element.name}
+              </div>
               <div className="single-user-btn-container">
                 {selectedItem === "all" ? (
                   element.isFollowing ? (
