@@ -1,9 +1,11 @@
 const BigPromise = require("../middlewares/bigPromise");
 const db = require("../database/index");
+const { sequelize } = require("../database/index");
 const DBUsers = db.users;
 const DBPosts = db.posts;
 const DBComments = db.comments;
 const DBFollowers = db.followers;
+const DBReactions = db.reactions;
 
 const cloudinary = require("cloudinary").v2;
 exports.getAllPost = BigPromise(async (req, res, next) => {
@@ -29,7 +31,23 @@ exports.getAllPost = BigPromise(async (req, res, next) => {
           },
         ],
       },
+      {
+        model: DBReactions,
+        as: "reactions",
+        attributes: ["userId", "reaction"],
+      },
     ],
+  });
+
+  posts.map((post) => {
+    let postReaction = 0;
+    if (post.dataValues.reactions.length) {
+      post.dataValues.reactions.map((reaction) => {
+        // console.log(reaction.dataValues.reaction);
+        postReaction = postReaction + reaction.dataValues.reaction;
+      });
+    }
+    post.dataValues["reactionSum"] = postReaction;
   });
   res.status(200).json({ success: true, posts });
 });
@@ -88,6 +106,7 @@ exports.deletePost = BigPromise(async (req, res, next) => {
   }
   await DBPosts.destroy({ where: { id: postId } });
   await DBComments.destroy({ where: { postId } });
+  await DBReactions.destroy({ where: { postId } });
   res.status(200).json({ success: true });
 });
 
@@ -161,8 +180,115 @@ exports.getPostById = BigPromise(async (req, res, next) => {
           },
         ],
       },
+      {
+        model: DBReactions,
+        as: "reactions",
+        attributes: ["userId", "reaction"],
+      },
     ],
   });
 
+  posts.map((post) => {
+    let postReaction = 0;
+    if (post.dataValues.reactions.length) {
+      post.dataValues.reactions.map((reaction) => {
+        // console.log(reaction.dataValues.reaction);
+        postReaction = postReaction + reaction.dataValues.reaction;
+      });
+    }
+    post.dataValues["reactionSum"] = postReaction;
+  });
+
   res.status(200).json({ success: true, posts });
+});
+
+exports.upVote = BigPromise(async (req, res, next) => {
+  const userId = req.user.id;
+  const { postId } = req.body;
+  const reaction = await DBReactions.findOne({
+    where: { userId, postId },
+  });
+  if (reaction) {
+    await DBReactions.destroy({ where: { userId, postId } });
+    const newReactions = await DBReactions.findAll({
+      where: { postId },
+      attributes: ["userId", "reaction"],
+    });
+    let sumReaction = 0;
+    if (newReactions.length) {
+      newReactions.map((reaction) => {
+        sumReaction += reaction.dataValues.reaction;
+      });
+    }
+    res.status(200).json({
+      success: true,
+      isReactionAvailable: false,
+      sumReaction,
+      newReactions,
+    });
+  } else {
+    await DBReactions.create({ postId, userId, reaction: 1 });
+    const newReactions = await DBReactions.findAll({
+      where: { postId },
+      attributes: ["userId", "reaction"],
+    });
+    let sumReaction = 0;
+    if (newReactions.length) {
+      newReactions.map((reaction) => {
+        sumReaction += reaction.dataValues.reaction;
+      });
+    }
+    res.status(200).json({
+      success: true,
+      isReactionAvailable: true,
+      sumReaction,
+      newReactions,
+    });
+  }
+});
+
+exports.downVote = BigPromise(async (req, res, next) => {
+  const userId = req.user.id;
+  const { postId } = req.body;
+  const reaction = await DBReactions.findOne({
+    where: { userId, postId },
+  });
+  if (reaction) {
+    await DBReactions.destroy({ where: { userId, postId } });
+    const newReactions = await DBReactions.findAll({
+      where: { postId },
+      attributes: ["userId", "reaction"],
+    });
+    let sumReaction = 0;
+    if (newReactions.length) {
+      newReactions.map((reaction) => {
+        sumReaction += reaction.dataValues.reaction;
+      });
+    }
+    res.status(200).json({
+      success: true,
+      isReactionAvailable: false,
+      sumReaction,
+      newReactions,
+    });
+  } else {
+    await DBReactions.create({ postId, userId, reaction: -1 });
+    const newReactions = await DBReactions.findAll({
+      where: { postId },
+      attributes: ["userId", "reaction"],
+    });
+    let sumReaction = 0;
+
+    if (newReactions.length) {
+      newReactions.map((reaction) => {
+        sumReaction += reaction.dataValues.reaction;
+      });
+    }
+    res.status(200).json({
+      success: true,
+      isReactionAvailable: true,
+      sumReaction,
+      newReactions,
+    });
+  }
 });

@@ -6,6 +6,8 @@ const {
   deleteComment,
   deletePost,
   getPostById,
+  upVote,
+  downVote,
 } = require("../controllers/post");
 const { isLoggedIn } = require("../middlewares/user");
 // const { getPosts } = require();
@@ -17,6 +19,8 @@ Router.route("/add-post").post(isLoggedIn, addPost);
 Router.route("/delete-post").post(isLoggedIn, deletePost);
 Router.route("/add-comment").post(isLoggedIn, addComment);
 Router.route("/delete-comment").post(isLoggedIn, deleteComment);
+Router.route("/upvote").post(isLoggedIn, upVote);
+Router.route("/downvote").post(isLoggedIn, downVote);
 Router.route("/get-user-post/:id").get(isLoggedIn, getPostById);
 // Router.route("/signup").post(signup);
 // Router.route("/logout").get(logout);

@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import UserContext from "../StateProvider";
 import Comments from "./Comments";
 // import { Buffer } from "buffer";
 
@@ -13,9 +14,13 @@ function Post({
   comments,
   image,
   imageId,
+  reactionSum,
+  handleUpVote,
+  handleDownVote,
+  currentUserReaction,
 }) {
   const newDate = new Date(date).toLocaleDateString();
-
+  const [loggedIn] = useContext(UserContext);
   return (
     <div className="post-box">
       <div className="post-header">
@@ -42,6 +47,33 @@ function Post({
         {image && <img src={image} className="post-image" />}
         {content}
       </div>
+      {loggedIn && (
+        <div className="post-reactions">
+          <div
+            className={`material-symbols-outlined post-reaction-item ${
+              currentUserReaction === 1 && "reaction-red"
+            }`}
+            onClick={() => handleUpVote(postId)}
+          >
+            arrow_upward
+          </div>
+          <div
+            className={`post-reaction-item ${
+              currentUserReaction && "reaction-red"
+            }`}
+          >
+            {reactionSum}
+          </div>
+          <div
+            className={`material-symbols-outlined post-reaction-item ${
+              currentUserReaction === -1 && "reaction-red"
+            }`}
+            onClick={() => handleDownVote(postId)}
+          >
+            arrow_downward
+          </div>
+        </div>
+      )}
       <div>
         <Comments comments={comments} postId={postId} />
       </div>

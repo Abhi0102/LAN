@@ -8,16 +8,80 @@ function UserPosts() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
+  const user = JSON.parse(localStorage.getItem("lanUser"));
+
+  const addCurrentUserReaction = (posts) => {
+    posts.map((post) => {
+      if (user) {
+        if (!post.reactions.length) {
+          post.currentUserReaction = 0;
+        }
+        for (let reaction of post.reactions) {
+          // console.log(reaction);
+          if (reaction.userId === user.id) {
+            post.currentUserReaction = reaction.reaction;
+            break;
+          } else {
+            post.currentUserReaction = 0;
+          }
+        }
+      }
+    });
+    setPosts([...posts]);
+  };
   useEffect(() => {
     axios
       .get(`/api/v1/post/get-user-post/${id}`)
-      .then((res) => setPosts(res.data.posts))
+      .then((response) => {
+        // console.log(response.data.posts);
+        addCurrentUserReaction(response.data.posts);
+      })
       .catch((err) => {
         toast.error(err.response.data.error);
         navigate("/posts");
       });
-  }, [posts]);
+  }, []);
+  const handleUpVote = (postId) => {
+    axios
+      .post("/api/v1/post/upvote", { postId })
+      .then((res) => {
+        let reactionValue = res.data.sumReaction;
+        const newPost = posts;
+        newPost.map((post) => {
+          if (post.id === postId) {
+            post.reactionSum = reactionValue;
+            post.reactions = res.data.newReactions;
+          }
+        });
+        // setPosts([...newPost]);
+        addCurrentUserReaction(newPost);
+      })
+      .catch((err) => {
+        // console.log(err);
+        toast.error("Something went wrong..");
+      });
+  };
 
+  const handleDownVote = (postId) => {
+    axios
+      .post("/api/v1/post/downvote", { postId })
+      .then((res) => {
+        let reactionValue = res.data.sumReaction;
+        const newPost = posts;
+        newPost.map((post) => {
+          if (post.id === postId) {
+            post.reactionSum = reactionValue;
+            post.reactions = res.data.newReactions;
+          }
+        });
+        // setPosts([...newPost]);
+        addCurrentUserReaction(newPost);
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Something went wrong..");
+      });
+  };
   const handleDelete = (postId, imageId) => {
     const ans = window.confirm("Do you want to delete the post permanently?");
     if (ans) {
@@ -50,6 +114,10 @@ function UserPosts() {
                 comments={post.comments}
                 image={post.image}
                 imageId={post.imageId}
+                reactionSum={post.reactionSum}
+                handleUpVote={handleUpVote}
+                handleDownVote={handleDownVote}
+                currentUserReaction={post.currentUserReaction}
               />
             );
           })

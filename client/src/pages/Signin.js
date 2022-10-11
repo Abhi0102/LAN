@@ -46,7 +46,7 @@ const Signin = () => {
         setLoggedIn(true);
         toast.success(`Welcome ${response.data.user.name}`);
       })
-      .catch((error) => console.log(error.response.data));
+      .catch((error) => toast.error(error.response.data.error));
     // const isUser = usersInDB.filter(
     //   (ele) => ele.email === inputEmail && ele.password === inputPass
     // );

@@ -12,17 +12,33 @@ function Posts() {
   // Logged in user Detail
   const user = JSON.parse(localStorage.getItem("lanUser"));
 
+  const addCurrentUserReaction = (posts) => {
+    posts.map((post) => {
+      if (user) {
+        if (!post.reactions.length) {
+          post.currentUserReaction = 0;
+        }
+        for (let reaction of post.reactions) {
+          // console.log(reaction);
+          if (reaction.userId === user.id) {
+            post.currentUserReaction = reaction.reaction;
+            break;
+          } else {
+            post.currentUserReaction = 0;
+          }
+        }
+      }
+    });
+    setPosts([...posts]);
+  };
+
   useEffect(() => {
     axios.get("/api/v1/post/get-posts").then((response) => {
-      setPosts(response.data.posts);
-      // console.log(response.data.posts);
-      // console.log(response.data.posts);
+      addCurrentUserReaction(response.data.posts);
     });
   }, []);
-
-  // On adding the post update the component state
   const addNewPost = (post) => {
-    const newPosts = [post, ...posts];
+    const newPosts = [{ ...post, reactionSum: 0 }, ...posts];
     setPosts(newPosts);
   };
 
@@ -41,6 +57,49 @@ function Posts() {
       // setPosts(posts);
     }
   };
+
+  const handleUpVote = (postId) => {
+    axios
+      .post("/api/v1/post/upvote", { postId })
+      .then((res) => {
+        let reactionValue = res.data.sumReaction;
+        const newPost = posts;
+        newPost.map((post) => {
+          if (post.id === postId) {
+            post.reactionSum = reactionValue;
+            post.reactions = res.data.newReactions;
+          }
+        });
+        // setPosts([...newPost]);
+        addCurrentUserReaction(newPost);
+      })
+      .catch((err) => {
+        // console.log(err);
+        toast.error("Something went wrong..");
+      });
+  };
+
+  const handleDownVote = (postId) => {
+    axios
+      .post("/api/v1/post/downvote", { postId })
+      .then((res) => {
+        let reactionValue = res.data.sumReaction;
+        const newPost = posts;
+        newPost.map((post) => {
+          if (post.id === postId) {
+            post.reactionSum = reactionValue;
+            post.reactions = res.data.newReactions;
+          }
+        });
+        // setPosts([...newPost]);
+        addCurrentUserReaction(newPost);
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Something went wrong..");
+      });
+  };
+  // console.log(posts);
   return (
     <div className="posts-container">
       <div className={user ? "posts-login" : "posts"}>
@@ -68,6 +127,10 @@ function Posts() {
                 comments={post.comments}
                 image={post.image}
                 imageId={post.imageId}
+                reactionSum={post.reactionSum}
+                handleUpVote={handleUpVote}
+                handleDownVote={handleDownVote}
+                currentUserReaction={post.currentUserReaction}
               />
             );
           })}
