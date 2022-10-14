@@ -17,7 +17,7 @@ function Profile() {
   const handleDelete = (e) => {
     const ans = window.confirm("Click on OK to delete your account.");
     if (ans) {
-      deleteUser(user.id);
+      axios.get("/api/v1/user/delete");
       localStorage.removeItem("lanUser");
       setLoggedIn(false);
       toast.success("User successfully deleted!!");
@@ -58,6 +58,7 @@ function Profile() {
               <input
                 type="text"
                 value={userName}
+                data-testid="hidden-input"
                 onChange={(e) => setUserName(e.target.value)}
               />
             )}

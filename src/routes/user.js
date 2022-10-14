@@ -9,6 +9,7 @@ const {
   follow,
   unfollow,
   getFollowingUser,
+  deleteUser,
 } = require("../controllers/user");
 const { isLoggedIn } = require("../middlewares/user");
 const Router = express.Router();
@@ -22,6 +23,7 @@ Router.route("/get-all-users").get(isLoggedIn, getAllUser);
 Router.route("/follow").post(isLoggedIn, follow);
 Router.route("/unfollow").post(isLoggedIn, unfollow);
 Router.route("/get-following-users").get(isLoggedIn, getFollowingUser);
+Router.route("/delete").get(isLoggedIn, deleteUser);
 Router.route("/test").get(() => {
   console.log("Hey");
 });

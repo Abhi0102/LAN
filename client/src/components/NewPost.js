@@ -85,6 +85,7 @@ function NewPost({ avatar, name, addNewPost }) {
             className="post-btn"
             disabled={contentLength < 10 || isLoading}
             onClick={handleButton}
+            data-testid="button"
           >
             Add Post
           </button>

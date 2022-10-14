@@ -4,6 +4,9 @@ const cookietoken = require("../utils/cookietoken");
 const db = require("../database/index");
 const DBUsers = db.users;
 const DBFollowers = db.followers;
+const DBPosts = db.posts;
+const DBReactions = db.reactions;
+const DBComments = db.comments;
 
 exports.signup = BigPromise(async (req, res, next) => {
   const { name, email, password } = req.body;
@@ -123,3 +126,15 @@ exports.getFollowingUser = BigPromise(async (req, res, next) => {
   res.status(200).json({ success: true, users });
 });
 // Delete User
+
+exports.deleteUser = BigPromise(async (req, res, next) => {
+  const userId = req.user.id;
+  await DBUsers.destroy({ where: { id: userId } });
+  await DBFollowers.destroy({
+    where: { $or: [{ followerId: userId }, { followingId: userId }] },
+  });
+  await DBPosts.destroy({ where: { userId } });
+  await DBReactions.destroy({ where: { userId } });
+  await DBComments.destroy({ where: { userId } });
+  next(logout(req, res, next));
+});
