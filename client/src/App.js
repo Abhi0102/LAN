@@ -24,12 +24,14 @@ function App() {
     axios
       .get("/api/v1/user/get-user")
       .then((response) => {
+        console.log(response.data.user);
         localStorage.setItem("lanUser", JSON.stringify(response.data.user));
         setLoggedIn(true);
       })
       .catch((error) => {
         localStorage.removeItem("lanUser");
         setLoggedIn(false);
+        toast.error(error.response.data.error);
       });
   }, []);
   return (

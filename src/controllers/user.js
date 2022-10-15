@@ -33,10 +33,14 @@ exports.login = BigPromise(async (req, res, next) => {
   if (!user) {
     return next(new Error("Email does not exists."));
   }
+  if (user.isBlocked) {
+    return next(new Error("Unable to login. User is Blocked by admin."));
+  }
   const isPasswordValid = await bcrypt.compare(password, user.password);
   if (!isPasswordValid) {
     return next(new Error("Please Enter Correct Password."));
   }
+
   cookietoken(user, res);
 });
 
@@ -52,9 +56,13 @@ exports.logout = BigPromise(async (req, res, next) => {
 
 exports.getUserDetail = BigPromise(async (req, res, next) => {
   const user = await DBUsers.findOne({
-    attributes: ["id", "name", "email", "joinedOn", "avatar"],
+    attributes: ["id", "name", "email", "joinedOn", "avatar", "isBlocked"],
     where: { id: req.user.id },
   });
+  if (user.isBlocked) {
+    // exports.logout(req, res, next);
+    next(new Error("User is blocked by admin."));
+  }
   res.status(200).json({ success: true, user });
 });
 

@@ -30,6 +30,11 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         defaultValue: "/avatar.png",
       },
+      isBlocked: {
+        type: DataTypes.TINYINT(1),
+        defaultValue: 0,
+        allowNull: false,
+      },
     },
     {
       modelName: "User",
