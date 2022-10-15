@@ -22,11 +22,11 @@ it("Should Render New Post Correctly", () => {
   expect(screen.getByText("Add Post")).toBeInTheDocument();
   expect(screen.getByText("AKG")).toBeInTheDocument();
   expect(screen.getByText("camera.svg")).toBeInTheDocument();
-  const post = screen.getByPlaceholderText("Share Your Thoughts...");
-  fireEvent.change(post, {
-    target: { value: "Testing post content by random sentence" },
-  });
-  expect(post.value).toBe("Testing post content by random sentence");
+  //   const post = screen.getByPlaceholderText("Share Your Thoughts...");
+  //   fireEvent.change(post, {
+  //     target: { value: "Testing post content by random sentence" },
+  //   });
+  //   expect(post.value).toBe("Testing post content by random sentence");
   const button = screen.getByTestId("button");
   fireEvent.click(button);
 });

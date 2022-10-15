@@ -45,7 +45,7 @@ function Post({
       </div>
       <div className="post-content">
         {image && <img src={image} className="post-image" />}
-        {content}
+        <div dangerouslySetInnerHTML={{ __html: content }} />
       </div>
       {loggedIn && (
         <div className="post-reactions">

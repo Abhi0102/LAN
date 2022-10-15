@@ -1,7 +1,8 @@
-import React, { useState } from "react";
-import { addPost } from "../helpers/user";
+import React, { useRef, useState } from "react";
 // import Camera from "/camera.svg";
 import { ReactComponent as Camera } from "../assets/camera.svg";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -13,11 +14,12 @@ function NewPost({ avatar, name, addNewPost }) {
   const [image, setImage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const date = today.toLocaleDateString();
-
+  const reactQuillRef = useRef();
   // Handle text input changes
   const textAreaChange = (e) => {
-    setContentLength(e.target.value.length);
-    setContent(e.target.value);
+    const unprivilegedEditor = reactQuillRef.current.unprivilegedEditor;
+    setContentLength(unprivilegedEditor.getLength());
+    setContent(e);
   };
 
   const handleButton = (e) => {
@@ -45,13 +47,7 @@ function NewPost({ avatar, name, addNewPost }) {
         toast.error("Some Error Occured");
         setIsLoading(false);
       });
-    // const user = JSON.parse(localStorage.getItem("lanUser"));
-    // addPost(user, content, image);
-    // addNewPost();
-    // setContent("");
-    // setContentLength(0);
-    // setImage("");
-    // setImageName("");
+    // console.log(content);
   };
 
   //   handle image input
@@ -59,16 +55,14 @@ function NewPost({ avatar, name, addNewPost }) {
     // console.log(e.target.files[0].name);
     setImageName(e.target.files[0].name);
     setImage(e.currentTarget.files[0]);
-    // const data = new FormData(e.currentTarget);
-    // console.log(e.currentTarget.files[0]);
-    // let reader = new FileReader();
-    // reader.onload = function (event) {
-    //   setImage(event.target.result);
-    // };
-    // reader.readAsDataURL(e.target.files[0]);
-    // const name = e.target.value.split("\\");
-    // setImageName(e.target.files[0].name);
   };
+
+  const checkCharacterCount = (event) => {
+    const unprivilegedEditor = reactQuillRef.current.unprivilegedEditor;
+    if (unprivilegedEditor.getLength() > 600 && event.key !== "Backspace")
+      event.preventDefault();
+  };
+
   return (
     <div className="post-box">
       <div className="post-header">
@@ -92,14 +86,25 @@ function NewPost({ avatar, name, addNewPost }) {
         </div>
       </div>
       <div className="post-content">
-        <textarea
+        <ReactQuill
+          theme="snow"
+          value={content}
+          ref={reactQuillRef}
+          placeholder={"Share Your Thoughts..."}
+          onChange={textAreaChange}
+          onKeyDown={checkCharacterCount}
+          style={{
+            height: "180px",
+          }}
+        />
+        {/* <textarea
           className="post-input"
           rows="5"
           placeholder="Share Your Thoughts..."
           maxLength="600"
           value={content}
           onChange={textAreaChange}
-        />
+        /> */}
       </div>
       <div className="post-footer">
         <p className="add-image-area">

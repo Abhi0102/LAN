@@ -368,13 +368,16 @@
   margin-bottom: 2%;
 }
 
+.input-post-container {
+  height: 180px;
+}
 .post-input {
   width: 100%;
   padding: 1%;
   outline: none;
   resize: none;
-  font-size: 1rem;
-  letter-spacing: 0.02rem;
+    font-size: 1rem;
+    letter-spacing: 0.02rem;
   border: 0.5px solid #1d1d1d;
   border-radius: 18px;
   text-align: justify;
@@ -409,6 +412,7 @@
   display: flex;
   justify-content: space-between;
   /* text-align: right; */
+  margin-top: 4rem;
   margin-left: 1rem;
   font-size: 0.8rem;
   font-weight: 500;
