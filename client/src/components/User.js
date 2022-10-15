@@ -78,14 +78,14 @@ function User() {
         >
           All User
         </div>
-        <div
+        {/* <div
           className={`user-filter-btn ${
             selectedItem === "followers" ? "user-filter-btn-selected" : null
           }`}
           onClick={() => setSelectedItem("followers")}
         >
           Followers
-        </div>
+        </div> */}
         <div
           className={`user-filter-btn ${
             selectedItem === "following" ? "user-filter-btn-selected" : null
